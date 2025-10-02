@@ -1,0 +1,19 @@
+@import "bootstrap/scss/bootstrap";
+
+ #gameBoard {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 10px;
+    place-items: center;
+    border: 1px solid rgb(99, 61, 36);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 10px;
+  }
+  .cellBoard{
+    background-color: beige;
+    border: 1px solid rgb(99, 61, 36);
+    padding: 5vw;
+
+  }
