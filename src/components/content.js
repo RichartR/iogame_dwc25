@@ -4,7 +4,7 @@ export { renderContent, reinforcedUp, playerTurnChange, expanse };
 const boardCells = new Array(6).fill().map(() => Array(6).fill().map(() => ({owner: 0, reinforced: 0})));
 
 //Turno jugador
-let playerTurn = '1';
+let playerTurn = 1;
 let turnDisplayElement = null;
 
 function renderContent(){
