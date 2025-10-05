@@ -3,9 +3,9 @@ import "./style.scss";
 //eslint-disable-next-line
 import * as bootstrap from 'bootstrap';
 
-import {renderHeader} from "./components/header";
-import { renderContent } from "./components/content";
+import { renderHeader } from "./components/header";
 import { renderFooter } from "./components/footer";
+import { showActionsPopup } from "./components/actions"
 import { router } from "./router";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -18,7 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
     router(window.location.hash, appDiv);
   });
 
-  /* appDiv.innerHTML =renderContent(); */
   header.innerHTML = renderHeader();
   footer.innerHTML = renderFooter();
+
+  //Modificar valor
+  appDiv.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.classList.contains("cellBoard")) {
+      const row = e.target.dataset.row;
+      const col = e.target.dataset.column;
+      //Mostramos el popup de acciones
+      showActionsPopup(row, col);
+    }
+  });
 });

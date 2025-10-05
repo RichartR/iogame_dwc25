@@ -11,9 +11,15 @@ const routes = new Map([
 ])
 
 function router(route, container){
-    console.log(route)
     if(routes.has(route)){
-        container.innerHTML = routes.get(route)();
+        //Comprobamos si el resultado es un string o un componente
+        const result = routes.get(route)();
+        if (typeof result === "string") {
+            container.innerHTML = result;
+        } else {
+            container.innerHTML = ""; //Limpiamos el anterior
+            container.appendChild(result);
+        }
     } else {
         container.innerHTML = `<h2>404</h2>`;
     }

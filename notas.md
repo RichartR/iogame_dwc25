@@ -1,0 +1,1 @@
+Repasar la asignación de los datos como owner, reinforced y como aplicar el css en base a estos valores

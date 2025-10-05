@@ -1,19 +1,119 @@
 @import "bootstrap/scss/bootstrap";
 
- #gameBoard {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 10px;
-    place-items: center;
-    border: 1px solid rgb(99, 61, 36);
-    border-radius: 10px;
-    margin: 10px;
-    padding: 10px;
-  }
-  .cellBoard{
-    background-color: beige;
-    border: 1px solid rgb(99, 61, 36);
-    padding: 5vw;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
 
-  }
+/* Estilo contenedor principal */
+#gameContainer {
+  width: 40vw;
+  height: 60vh;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  min-width: 500px;
+  min-height: 300px;
+  max-width: 850px;
+}
+
+/* Estilo del tablero */
+#gameBoard {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 4px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px;
+  border-radius: 10px;
+  height: 90%;
+}
+
+/* Estilo de las celdas del tablero */
+.cellBoard {
+  background-color: #444;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cellBoard:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+/* Estilo para el turno */
+#turnDisplay {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #ffffff;
+  height: 5%;
+}
+
+/* Estilo para el fondo oscuro que cubre toda la pantalla al abrir el popup */
+.popupBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: grid;
+  place-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+}
+
+/* Estilo para el cuadro del popup */
+.popupContainer {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  text-align: center;
+  max-width: 320px;
+  width: 30vw;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+/* Botones */
+.popupButtonsContainer {
+  margin-top: 16px;
+}
+
+.popupButton, .popupButton:hover {
+  font-weight: bold;
+}
+
+.popupClose {
+  position: absolute;
+  top: 5px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #f40000;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-content: center;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+}
+
+.popupClose:hover {
+  color: #500505;
+  background: #fa484878;
+}
+
