@@ -13,13 +13,7 @@ const routes = new Map([
 function router(route, container){
     if(routes.has(route)){
         //Comprobamos si el resultado es un string o un componente
-        const result = routes.get(route)();
-        if (typeof result === "string") {
-            container.innerHTML = result;
-        } else {
-            container.innerHTML = ""; //Limpiamos el anterior
-            container.appendChild(result);
-        }
+        container.replaceChildren(routes.get(route)());
     } else {
         container.innerHTML = `<h2>404</h2>`;
     }

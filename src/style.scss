@@ -9,9 +9,9 @@
 
 /* Estilo contenedor principal */
 #gameContainer {
-  width: 40vw;
-  height: 60vh;
-  margin: 0 auto;
+  width: 30vw;
+  height: 70vh;
+  margin: 5vh auto;
   background-color: rgba(0, 0, 0, 0.7);
   border-radius: 15px;
   padding: 20px;
@@ -30,7 +30,7 @@
   background: rgba(255, 255, 255, 0.1);
   padding: 10px;
   border-radius: 10px;
-  height: 90%;
+  height: 87%;
 }
 
 /* Estilo de las celdas del tablero */
@@ -52,8 +52,13 @@
 
 /* Estilo para el turno */
 #turnDisplay {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+}
+
+#totalTurnsDisplay{
   margin-bottom: 16px;
   text-align: center;
   color: #ffffff;

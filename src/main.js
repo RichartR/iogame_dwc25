@@ -24,9 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
   //Modificar valor
   appDiv.addEventListener("click", (e) => {
     const target = e.target;
+    console.log(target)
     if (target.classList.contains("cellBoard")) {
-      const row = e.target.dataset.row;
-      const col = e.target.dataset.column;
+      const row = target.dataset.row;
+      const col = target.dataset.column;
       //Mostramos el popup de acciones
       showActionsPopup(row, col);
     }
