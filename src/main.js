@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
   //Modificar valor
   appDiv.addEventListener("click", (e) => {
     const target = e.target;
-    console.log(target)
     if (target.classList.contains("cellBoard")) {
       const row = target.dataset.row;
       const col = target.dataset.column;

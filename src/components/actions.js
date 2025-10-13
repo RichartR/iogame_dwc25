@@ -3,7 +3,6 @@ import {
   playerTurnChange,
   expanse,
   totalTurnChange,
-  renderContent
 } from "./content";
 
 export { showActionsPopup };
@@ -65,7 +64,6 @@ function showActionsPopup(row, column) {
     } else {
       playerTurnChange();
       totalTurnChange();
-      renderContent();
       document.body.removeChild(popupBackground);
     }
   });

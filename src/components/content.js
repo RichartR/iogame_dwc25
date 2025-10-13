@@ -2,8 +2,8 @@ export { renderContent, reinforcedUp, playerTurnChange, expanse, totalTurnChange
 
 import { showEndPopup } from "./endGame";
 
-//Creamos las celdas
 let cellsBoard = new Array(6).fill().map(() => Array(6).fill().map(() => ({owner: 0, reinforced: 0})));
+let cellsMap = new Map();
 
 //Turno jugador
 let playerTurn = 1;
@@ -14,7 +14,7 @@ let totalTurns = 0;
 let totalTurnsDisplayElement = null;
 
 function renderContent(){
-    //Creamos el tablero
+    //Creamos el contenedor
     const container = document.createElement('div');
     container.id = 'gameContainer';
     
@@ -36,83 +36,76 @@ function renderContent(){
     const board = document.createElement('div');
     board.id = 'gameBoard';
 
-    //Recorremos las celdas y las añadimos a la tabla
     cellsBoard.forEach((row, rowIdx) => 
-        row.forEach( (cell, columnIdx) => {
-            //Creamos un div de la celda
+        row.forEach((cell, columnIdx) => {
             const cellElement = document.createElement('div');
             cellElement.classList.add('cellBoard');
-
-            //Para poder modificarlo luego más sencillo
-            /* cell.element = cellElement; */
-            
-            //Añadimos las coordenadas
             cellElement.dataset.row = rowIdx;
             cellElement.dataset.column = columnIdx;
 
-            //Añadimos los datos
-            if(totalTurns == 0){
-                if((rowIdx == 2 && columnIdx == 2) || (rowIdx == 3 && columnIdx == 3)){
+            // Inicializamos los datos solo en el primer render
+            if(totalTurns === 0){
+                if((rowIdx === 2 && columnIdx === 2) || (rowIdx === 3 && columnIdx === 3)){
                     cell.reinforced = 2;
-                    cellElement.innerHTML = cell.reinforced;
-                    cell.owner = (rowIdx == 2 ? 1 : 2);
-                    cellElement.classList.add(colorCell(rowIdx, columnIdx));
+                    cell.owner = (rowIdx === 2 ? 1 : 2);
                 } else {
-                    cellElement.innerHTML = cell.reinforced;
-                    cellElement.classList.add(colorCell(rowIdx, columnIdx));
+                    cell.reinforced = 0;
+                    cell.owner = 0;
                 }
-            } else {
-                cellElement.innerHTML = cell.reinforced;
-                cellElement.classList.add(colorCell(rowIdx, columnIdx));
             }
-            
-            //Añadir al tablero
+
+            // Actualizamos el HTML según el estado
+            cellElement.textContent = cell.reinforced;
+            const colorClass = colorCell(rowIdx, columnIdx);
+            if (colorClass) cellElement.classList.add(colorClass);
+
+            // Guardamos el elemento en el mapa
+            cellsMap.set(`${rowIdx},${columnIdx}`, cellElement);
+
             board.appendChild(cellElement);
-        }));
+        })
+    );
 
-    //Seteamos las casillas iniciales
-    /* cellsBoard[2][2].owner = 1;
-    cellsBoard[2][2].element.textContent = (cellsBoard[2][2].reinforced += 2);
-    colorCell(2,2);
-
-    cellsBoard[3][3].owner = 2;
-    cellsBoard[3][3].element.textContent = (cellsBoard[3][3].reinforced += 2);
-    colorCell(3,3); */
-    
-    //Devolvemos el contenedor entero
     container.appendChild(board);
     return container;
 }
 
+// Refresca el aspecto visual de una celda concreta
+function refreshCell(row, column) {
+    const cell = cellsBoard[row][column];
+    const cellElement = cellsMap.get(`${row},${column}`);
+    if (!cellElement) return;
+    
+    cellElement.textContent = cell.reinforced;
+    cellElement.classList.remove('text-bg-primary', 'text-bg-danger');
+    const colorClass = colorCell(row, column);
+    if (colorClass) cellElement.classList.add(colorClass);
+}
+
+
+// Refuerza una celda si es del jugador actual
 function reinforcedUp(row, column){
-    //Actualizamos el valor utilizando element que hemos generado antes
     if(cellsBoard[row][column].owner != playerTurn){
         return false;
     }
-
-    cellsBoard[row][column].reinforced += 1;
-
-    return true;
-}
-
-function expanse(row, column){
-    //Actualizar owner de la celda
-    const cell = cellsBoard[row][column];
     
-    if(playerTurn == 1){
-        cell.owner = 1;
-    } else {
-        cell.owner = 2;
-    }
+    cellsBoard[row][column].reinforced += 1;
+    refreshCell(row, column);
 
-    //cambiar color
-    colorCell(row, column);
-
-    //Actualizar el valor inicial
-    cell.element.textContent = 1;
-    cell.reinforced = 1;
+    return true; 
+    
 }
 
+// Expande el territorio a una celda vacia
+function expanse(row, column){
+    console.log("test")
+    const cell = cellsBoard[row][column];
+    cell.owner = playerTurn;
+    cell.reinforced = 1;
+    refreshCell(row, column);
+}
+
+//Cambia de turno
 function playerTurnChange(){
     playerTurn = (playerTurn == 1) ? 2 : 1;
     if (turnDisplayElement) {
@@ -120,34 +113,38 @@ function playerTurnChange(){
     }
 }
 
+// Aumenta los turnos totales
 function totalTurnChange(){
-    //Sumamos turno
     totalTurns += 1;
-
-    //Actualizamos visualmente
-    totalTurnsDisplayElement.textContent = `Turnos totales: ${totalTurns}/20`;
-
-    //Comprobamos si sigue el juego
-    if(totalTurns >= 5){
-        //Fin del juego
+    if (totalTurnsDisplayElement) {
+        totalTurnsDisplayElement.textContent = `Turnos totales: ${totalTurns}/20`;
+    }
+    if(totalTurns >= 20){
         showEndPopup();
     }
 }
 
+// Devuelve la clase de color según el owner
 function colorCell(row, column){
-    //Color de la celda en función del owner
     const cell = cellsBoard[row][column];
-
-    console.log(cell);
-
     if(cell.owner == 1){
         return 'text-bg-primary';
     } else if (cell.owner == 2) {
-         return'text-bg-danger';
+        return 'text-bg-danger';
     }
-
+    return '';
 }
 
+// Resetea el juego
 function resetGame(){
     cellsBoard = new Array(6).fill().map(() => Array(6).fill().map(() => ({owner: 0, reinforced: 0})));
+    totalTurns = 0;
+    playerTurn = 1;
+    cellsMap.clear();
+
+    // Vuelvemos a renderizar el contenido visual
+    const container = document.getElementById('gameContainer');
+    if (container.parentNode) {
+        container.parentNode.replaceChild(renderContent(), container);
+    }
 }
