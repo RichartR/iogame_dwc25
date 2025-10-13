@@ -75,7 +75,7 @@ function refreshCell(row, column) {
     const cell = cellsBoard[row][column];
     const cellElement = cellsMap.get(`${row},${column}`);
     if (!cellElement) return;
-
+    
     cellElement.textContent = cell.reinforced;
     cellElement.classList.remove('text-bg-primary', 'text-bg-danger');
     const colorClass = colorCell(row, column);
