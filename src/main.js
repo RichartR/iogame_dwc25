@@ -5,6 +5,7 @@ import * as bootstrap from 'bootstrap';
 
 import { renderHeader } from "./components/header";
 import { renderFooter } from "./components/footer";
+import { renderLogin } from "./components/login";
 import { showActionsPopup } from "./components/actions"
 import { router } from "./router";
 
@@ -31,4 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showActionsPopup(row, col);
     }
   });
+
+
 });

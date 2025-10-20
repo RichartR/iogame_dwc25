@@ -1,12 +1,13 @@
-export { renderLogin }
+export { renderSignUp }
 
 const KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5neGV6YWFrdnp4aHBjdWxoeGNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA1MzIxNDIsImV4cCI6MjA3NjEwODE0Mn0.sA7ge-JXvksn8KjYilvOYZwAAcyv3lLmWqT-3a2hvXI";
 
-function renderLogin(){
+function renderSignUp(){
     const form = document.createElement("div");
     form.innerHTML = `
         <form>
         <div class="mb-3">
+            <h1>Sign UP!</h1>
             <label for="InputEmail" class="form-label">Email address</label>
             <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
@@ -24,14 +25,11 @@ function renderLogin(){
     `
     const loginBtn = form.querySelector("#login-btn");
 
-    loginBtn.addEventListener("click", async () => {
+    loginBtn.addEventListener("click", () => {
         const email = form.querySelector("#InputEmail").value;
         const password = form.querySelector("#InputPassword").value;
 
-        let access_token = (await postUser(email, password)).access_token;
-
-        let info_user = await user(access_token)
-        console.log(info_user)
+        postUser(email, password);
 
         
     });
@@ -42,36 +40,18 @@ function renderLogin(){
 async function postUser(email, password){
     const body = {
         "email": email,
-        password
+        "password": password
     }
-     let response = await fetch(`https://ngxezaakvzxhpculhxco.supabase.co/auth/v1/token?grant_type=password`,{
+     let response = await fetch(`https://ngxezaakvzxhpculhxco.supabase.co/auth/v1/signup`,{
         method: `POST`,
         headers: {
             "apiKey": KEY,
             "Content-Type": "application/json", 
-            "Authorization" :"Bearer "+ KEY,
-            "Prefer" : "return=representation"
         },
         body: JSON.stringify(body)
-    }); 
-   
-
-    const data = await response.json();
-
-    return data;
-}
-
-async function user(user_token){
-
-     let response = await fetch(`https://ngxezaakvzxhpculhxco.supabase.co/auth/v1/user`,{
-        method: `GET`,
-        headers: {
-            "apiKey": KEY, 
-            "Authorization" :"Bearer "+ user_token,
-        },
     });
 
-    const data = await response.json();
+    console.log(response.status);
 
-    return data;
+    return response;
 }
